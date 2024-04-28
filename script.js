@@ -1,6 +1,18 @@
 document.addEventListener('DOMContentLoaded', function() {
     loadTasks();
 
+    document.getElementById('themeToggle').addEventListener('click', function() {
+        var elements = document.querySelectorAll('body, .container, h1, input, select, button, .task-item');
+        elements.forEach(element => element.classList.toggle('dark-theme'));
+
+        localStorage.setItem('theme', document.body.classList.contains('dark-theme') ? 'dark' : 'light');
+    });
+
+    if (localStorage.getItem('theme') === 'dark') {
+        var elements = document.querySelectorAll('body, .container, h1, input, select, button, .task-item');
+        elements.forEach(element => element.classList.add('dark-theme'));
+    }
+
     document.getElementById('addTaskBtn').addEventListener('click', function() {
         var task = document.getElementById('taskInput').value;
         var timeEstimate = document.getElementById('timeInput').value;
@@ -26,7 +38,6 @@ document.addEventListener('DOMContentLoaded', function() {
             updateTaskStatus(taskId);
         }
     });
-       
 });
 
 function httpRequest(method, url, data, callback) {
@@ -58,7 +69,20 @@ function encodeFormData(data) {
 function loadTasks() {
     httpRequest('GET', 'php/load_tasks.php', null, function(response) {
         document.getElementById('taskList').innerHTML = response;
+        applyThemeToDynamicContent();
     });
+}
+
+function applyThemeToDynamicContent() {
+    if (document.body.classList.contains('dark-theme')) {
+        document.querySelectorAll('.task-item').forEach(function(item) {
+            item.classList.add('dark-theme');
+        });
+    } else {
+        document.querySelectorAll('.task-item').forEach(function(item) {
+            item.classList.remove('dark-theme');
+        });
+    }
 }
 
 function addTask(task, timeEstimate, colorTag) {
