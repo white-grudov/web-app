@@ -1,82 +1,83 @@
-$(document).ready(function() {
+document.addEventListener('DOMContentLoaded', function() {
     // Load tasks from the server on page load
     loadTasks();
 
     // Add task
-    $('#addTaskBtn').click(function() {
-        var task = $('#taskInput').val();
-        var timeEstimate = $('#timeInput').val();
-        var colorTag = $('#colorInput').val();
+    document.getElementById('addTaskBtn').addEventListener('click', function() {
+        var task = document.getElementById('taskInput').value;
+        var timeEstimate = document.getElementById('timeInput').value;
+        var colorTag = document.getElementById('colorInput').value;
         if (task.trim() !== '') {
             addTask(task, timeEstimate, colorTag);
-            $('#taskInput').val('');
-            $('#timeInput').val('');
+            document.getElementById('taskInput').value = '';
+            document.getElementById('timeInput').value = '';
         }
     });
 
-    // Mark task as completed
-    $('#taskList').on('click', '.task-item', function() {
-        var taskId = $(this).data('id');
-        if (!$(event.target).hasClass('delete-btn')) { // Prevent triggering when clicking the delete button
+    document.getElementById('taskList').addEventListener('click', function(event) {
+        var target = event.target;
+        if (target.classList.contains('delete-btn') || target.parentElement.classList.contains('delete-btn')) {
+            event.stopPropagation();
+            var taskId = target.closest('li').dataset.id;
+            deleteTask(taskId);
+        } else if (target.closest('.task-item')) {
+            var taskId = target.closest('.task-item').dataset.id;
             updateTaskStatus(taskId);
         }
     });
-
-    // Delete task
-    $('#taskList').on('click', '.delete-btn', function(event) {
-        event.stopPropagation();  // Prevents the task item click event from firing
-        var taskId = $(this).closest('li').data('id');
-        deleteTask(taskId);
-    });
+       
 });
 
-// Function to load tasks
+function httpRequest(method, url, data, callback) {
+    var xhr = new XMLHttpRequest();
+    xhr.open(method, url, true);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.onload = function() {
+        if (xhr.status >= 200 && xhr.status < 300) {
+            callback(xhr.responseText);
+        }
+    };
+    xhr.send(encodeFormData(data));
+}
+
+function encodeFormData(data) {
+    if (!data) return null;
+    var pairs = [];
+    for (var name in data) {
+        if (!data.hasOwnProperty(name)) continue;
+        if (typeof data[name] === 'function') continue;
+        var value = data[name].toString();
+        name = encodeURIComponent(name.replace('%20', '+'));
+        value = encodeURIComponent(value.replace('%20', '+'));
+        pairs.push(name + "=" + value);
+    }
+    return pairs.join('&');
+}
+
 function loadTasks() {
-    $.ajax({
-        url: 'php/load_tasks.php',
-        method: 'GET',
-        success: function(response) {
-            $('#taskList').html(response);
-        }
+    httpRequest('GET', 'php/load_tasks.php', null, function(response) {
+        document.getElementById('taskList').innerHTML = response;
     });
 }
 
-// Function to add a task
 function addTask(task, timeEstimate, colorTag) {
-    $.ajax({
-        url: 'php/add_task.php',
-        method: 'POST',
-        data: {
-            task: task,
-            time_estimate: timeEstimate,
-            color_tag: colorTag
-        },
-        success: function() {
-            loadTasks();
-        }
+    httpRequest('POST', 'php/add_task.php', {
+        task: task,
+        time_estimate: timeEstimate,
+        color_tag: colorTag
+    }, function() {
+        loadTasks();
     });
 }
 
-// Function to mark task as completed
 function updateTaskStatus(taskId) {
-    $.ajax({
-        url: 'php/update_task_status.php',
-        method: 'POST',
-        data: { id: taskId },
-        success: function() {
-            loadTasks();
-        }
+    httpRequest('POST', 'php/update_task_status.php', { id: taskId }, function() {
+        loadTasks();
     });
 }
 
-// Function to delete a task
 function deleteTask(taskId) {
-    $.ajax({
-        url: 'php/delete_task.php',
-        method: 'POST',
-        data: { id: taskId },
-        success: function() {
-            loadTasks();
-        }
+    httpRequest('POST', 'php/delete_task.php', { id: taskId }, function() {
+        loadTasks();
     });
 }
