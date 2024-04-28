@@ -83,10 +83,27 @@ ul {
 .task-item {
     padding: 10px;
     border-bottom: 1px solid #eee;
+    background-color: #f9f9f9;
     position: relative;
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+.task-details {
+    display: flex; /* This makes sure the text and time estimate are in line */
+    flex-grow: 1; /* Allows the details section to take as much space as possible */
+    align-items: center; /* Aligns items vertically in the center */
+}
+
+.task-text {
+    /* Ensure there's a bit of margin if the time estimate appears */
+    margin-right: 10px;
+}
+
+.time-estimate {
+    color: gray;
+    margin-left: 10px; /* Optional: Adds space between the task text and the time estimate */
 }
 
 .task-item.dark-theme {
