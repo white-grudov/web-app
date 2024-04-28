@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo List</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Open+Sans&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Todo List</h1>
+        <input type="text" id="taskInput" placeholder="Add new task">
+        <input type="text" id="timeInput" placeholder="Estimated time (e.g., 2h)">
+        <select id="colorInput">
+            <option value="#FFFFFF" style="color:#000000;">White</option>
+            <option value="#DB162F" style="color:#DB162F;">Red</option>
+            <option value="#86BBD8" style="color:#86BBD8;">Blue</option>
+            <option value="#008000" style="color:#008000;">Green</option>
+            <option value="#F6AE2D" style="color:#F6AE2D;">Yellow</option>
+            <option value="#E086D3" style="color:#E086D3;">Purple</option>
+            <option value="#F26419" style="color:#F26419;">Orange</option>
+        </select>
+        <button id="addTaskBtn"><i class="fas fa-plus"></i> Add Task</button>
+        <ul id="taskList"></ul>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
