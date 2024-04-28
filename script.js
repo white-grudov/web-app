@@ -1,8 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Load tasks from the server on page load
     loadTasks();
 
-    // Add task
     document.getElementById('addTaskBtn').addEventListener('click', function() {
         var task = document.getElementById('taskInput').value;
         var timeEstimate = document.getElementById('timeInput').value;
@@ -17,9 +15,12 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('taskList').addEventListener('click', function(event) {
         var target = event.target;
         if (target.classList.contains('delete-btn') || target.parentElement.classList.contains('delete-btn')) {
-            event.stopPropagation();
-            var taskId = target.closest('li').dataset.id;
-            deleteTask(taskId);
+            var confirmDelete = confirm("Are you sure you want to delete this task?");
+            if (confirmDelete) {
+                event.stopPropagation();
+                var taskId = target.closest('li').dataset.id;
+                deleteTask(taskId);
+            }
         } else if (target.closest('.task-item')) {
             var taskId = target.closest('.task-item').dataset.id;
             updateTaskStatus(taskId);
