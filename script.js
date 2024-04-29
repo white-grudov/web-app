@@ -98,6 +98,7 @@ function openEditModal(taskId) {
     editModal.style.display = 'block';
     editModal.style.top = `${rect.bottom + window.scrollY}px`;
     editModal.style.left = `${rect.left + window.scrollX}px`;
+    editModal.style.width = `${rect.width}px`;
 
     document.getElementById('saveTaskBtn').onclick = function() {
         saveTaskChanges(taskId);

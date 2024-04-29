@@ -190,6 +190,7 @@ button#themeToggle:hover {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     padding: 20px;
     z-index: 1001;
+    border-radius: 5px;
 }
 
 .edit-task-modal.dark-theme {
