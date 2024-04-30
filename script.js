@@ -37,9 +37,9 @@ const openEditModal = (taskId) => {
 }
 
 const populateColorOptions = (selector) => {
-    $(selector).each(function() {
+    $(selector).each(() => {
         var selectElement = $(this);
-        $.each(colorOptions, function(_, option) {
+        $.each(colorOptions, (_, option) => {
             selectElement.append($('<option>', {
                 value: option.value,
                 text: option.text
@@ -105,7 +105,7 @@ const saveTaskChanges = () => {
 const loadTasks = () => {
     ajaxCall('GET', 'php/load_tasks.php', null, (response) => {
         var content = '';
-        $(response).find('task').each(function() {
+        $(response).find('task').each(() => {
             var id = $(this).find('id').text();
             var text = $(this).find('text').text();
             var timeEstimate = $(this).find('timeEstimate').text();
