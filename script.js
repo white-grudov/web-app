@@ -105,7 +105,7 @@ const saveTaskChanges = () => {
 const loadTasks = () => {
     ajaxCall('GET', 'php/load_tasks.php', null, (response) => {
         var content = '';
-        $(response).find('task').each(() => {
+        $(response).find('task').each(function() {
             var id = $(this).find('id').text();
             var text = $(this).find('text').text();
             var timeEstimate = $(this).find('timeEstimate').text();
