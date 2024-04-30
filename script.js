@@ -37,7 +37,7 @@ const openEditModal = (taskId) => {
 }
 
 const populateColorOptions = (selector) => {
-    $(selector).each(() => {
+    $(selector).each(function() {
         var selectElement = $(this);
         $.each(colorOptions, (_, option) => {
             selectElement.append($('<option>', {
