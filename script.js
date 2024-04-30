@@ -2,30 +2,10 @@ $(document).ready(() => {
     populateColorOptions('#colorInput, #editColorInput');
     loadTasks();
 
-    $('#themeToggle').click(updateDarkTheme);
     $('#addTaskBtn').click(addNewTask);
     $('#taskList').on('click', handleTaskListClick);
     $('#saveTaskBtn').click(saveTaskChanges);
 });
-
-const toggleThemeRecursive = (element) => {
-    element.toggleClass('dark-theme');
-    element.children().each(function() {
-        toggleThemeRecursive($(this));
-    });
-};
-
-const updateDarkTheme = () => {
-    toggleThemeRecursive($('body'));
-    let isDark = $('body').hasClass('dark-theme');
-    localStorage.setItem('dark-theme', isDark);
-};
-
-const loadTheme = () => {
-    if (localStorage.getItem('dark-theme') === 'true') { 
-        toggleThemeRecursive($('body'));
-    }
-}
 
 const colorOptions = [
     { value: "#FFFFFF", text: "White",  color: "#000000" },
@@ -145,7 +125,6 @@ const loadTasks = () => {
             content += "</li>";
         });
         $('#taskList').html(content);
-        loadTheme();
     }, 'Error loading tasks.'
     );
 }
